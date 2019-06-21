@@ -9,10 +9,6 @@ import (
 	"strings"
 )
 
-func main() {
-	fmt.Println(ConvertFile("/Users/seph/Pictures/Kappa.png"))
-}
-
 var colors = map[int]interface{}{
 	0:   nil,
 	17:  nil,

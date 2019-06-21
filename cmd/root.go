@@ -15,9 +15,11 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "slack-picture-generator",
 	Short: "Used to make grayscale pictures using slack emojis",
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Args: cobra.MinimumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+
+		fmt.Println(ConvertFile(args[0]))
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
