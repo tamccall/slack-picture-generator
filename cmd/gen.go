@@ -105,4 +105,3 @@ func nearestMatch(srcGrey int) int {
 	}
 	return -1
 }
-

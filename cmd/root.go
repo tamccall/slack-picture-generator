@@ -15,7 +15,7 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "slack-picture-generator",
 	Short: "Used to make grayscale pictures using slack emojis",
-	Args: cobra.MinimumNArgs(1),
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
 		fmt.Println(ConvertFile(args[0]))
