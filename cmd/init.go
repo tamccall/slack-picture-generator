@@ -16,36 +16,45 @@ limitations under the License.
 package cmd
 
 import (
+	"archive/zip"
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"regexp"
 )
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Creates the necessary emojis needed in your slack workspace",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("init called")
+		runInit(cmd, args)
 	},
+}
+
+
+func runInit(cmd *cobra.Command, args []string) {
+	unzipArchive(args)
+}
+
+func unzipArchive(args []string) {
+	r, err := zip.OpenReader(args[0])
+	if err != nil {
+		panic(err)
+	}
+
+	defer r.Close()
+	for _, f := range r.File {
+		match, err := regexp.MatchString(`.*/g\d{1,3}\.png|.*/t.png`, f.Name)
+		if err != nil {
+			panic(err)
+		}
+
+		if match {
+			fmt.Printf("Found file %s in zip\n", f.Name)
+		}
+	}
 }
 
 func init() {
 	rootCmd.AddCommand(initCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// initCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// initCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
